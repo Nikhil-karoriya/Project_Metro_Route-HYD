@@ -1,0 +1,95 @@
+.main{
+    
+    height: 100vh;
+    width:100%;
+    background-image: url("pics/metro_rail1.jpg");
+    background-size: cover;
+    padding: 0.1rem;
+    font-family: "Montserrat", sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+}
+a{
+    text-decoration: none;
+}
+/* 1rem-> 14.5rem */
+.sidebar {
+    height: 100%; 
+    width: 12%;
+    font-size: 1.5rem;
+    padding: 9rem 0.5rem;
+    padding-left:1%;
+    background-color: #af9ebb5b;
+    border-radius: 0.5rem;
+    margin-right: 0.2rem;
+}
+.sider{
+    height: 2.5rem;
+    width: 90%;
+    text-decoration: underline;
+    margin-bottom: 2.2rem;
+    color: #ffd89d;
+    text-align: center;
+    transition: all 0.3s ease-in;
+}
+@media(max-width: 999px){
+    .sidebar, .sider{
+        display: none;
+    }
+}
+.sider a{
+    text-align: center;
+    color:#ffd89d;
+}
+.sider:hover{
+    transform: scale(1.1);
+    border-radius: 0.6rem;
+    box-shadow: 0.3rem 0.5rem 1rem #aca1ddb8;
+    color: #fcbb9b;
+    background-color: #988ac570;
+}
+.sider a:hover{
+    color: #fcbb9b;
+}
+.containr{
+    width: 87%;
+    height: 100%;
+}
+.banner {
+    color: #ffd89d;
+    text-align: center;
+    height: 30%;
+    width: 60%;
+    position: absolute;
+    left: 19%;
+    top: 15%;
+    /* padding: 7rem 1.5rem; */
+    animation-name: banner_h;
+    animation-duration: 1.5s;
+}
+@keyframes banner_h{
+    from{
+        top: 5%;
+    }
+    to{
+        top: 15%;
+    }
+}
+.banner h1 {
+    font-size: 3.3rem;
+    margin: 0;
+}
+.banner p {
+    font-size: 1.5rem;
+    margin: 0.7px 0;
+}
+@media (orientation:portrait){
+    .banner h4{
+        color:#110d0a;
+        font-weight: 540;
+    }
+    .banner h1{
+        color: #ffc993;
+        font-weight: 550;
+    }
+}
