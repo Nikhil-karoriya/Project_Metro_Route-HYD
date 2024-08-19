@@ -3,29 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MetroPath</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+    <title>route stations</title>
+    <link rel="icon" href="images/logo.jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/route.css">
 </head>
 <body>
-    <form id="form" onsubmit="return false">
-        <div class="form-group">
-          <label for="Source" >Enter Your Source</label>
-          <input type="text" id="Source" class="form-control" id="exadistancesleInputEmail1" aria-describedby="emailHelp" placeholder="Enter src">
-          
+    <div class="main">
+        <div class="planner">
+            <div class="journey">
+                <img src="images/MetroMadridLogo.png" alt="..">
+                <h3>Plan Your Journey</h3>
+            </div>
+
+            <div class="user_ip">
+                <form id="form" action="" onsubmit="return false">
+                    <div class="mb-3">
+                        <label for="src_st" class="show_lbl">From</label>
+                        <input type="text" id="Source" class="src_ip" id="src_st" 
+                            placeholder="enter source station">
+                        </div>
+                    <div class="mb-3">
+                        <label for="dst_st" class="show_lbl">To</label>
+                        <input type="text" id="Dest" class="src_ip" id="dst_st" 
+                            placeholder="enter destination station">
+                    </div>
+                    
+                    <div class="shortest">
+                        <p class="note">Advanced Filter</p>
+                        <div class="short_rt">
+                            <img src="images/distance.png" alt="..">
+                            <p >Shortest Route Enabled</p>
+                        </div>
+                    </div>
+                    <button type="submit" onclick="show()" class="btn btn-outline-danger bt_sub">Show Route & Fair</button>
+                </form>
+            </div>
         </div>
-        <div class="form-group">
-          <label for="Destination">Enter Your Destination</label>
-          <input type="text" id="Dest" class="form-control" placeholder="Enter Source">
+        <div id="paths" style="margin-top: 100vh;">
+            Stations here
+            <hr>
+            
         </div>
+        <div id="dist"></div>
         
-        <button  onclick="show()" class="btn btn-primary">Submit</button>
-    </form>
-    <div id="paths">
-        Stations here
     </div>
 </body>
 </html>
@@ -35,7 +58,7 @@
 
 let distances;
 let total_stations, code, graph;
-
+let Totaldis=0;
 
 
 class PriorityQueue {
@@ -155,6 +178,7 @@ function dijkstra(src,distances) {
 }
 function main(s,d) {
     stations = ["LBnagar", "Victoria_memorial", "chaitanyapuri", "Dilshukhnagar", "moosrambagh", "NewMarket", "malakpet", "MGbusstation", "Osmania_medical", "Gandhibhavan", "Nadistancesally", "Assembly", "Lakdikapool", "Khairtabad", "Irrummanzil", "Panjagutta", "Ameerpet", "SRnagar", "ESIhospital", "Erragadda", "Bharatnagar", "Moosapet", "DR_BRambedkar", "Kukatpally", "KPHBcolony", "JNTUcollege", "Miyapur", "Sultanbazar", "Narayanguda", "Chikkadpali", "RTCxroads", "Musheerabad", "Gandhihospital", "Secbadwest", "Paradeground", "Nagole", "Uppal", "stadium", "NGRI", "Habsiguda", "Tarnaka", "Mettuguda", "Secbadeast", "Paradise", "Rasoolpura", "PrakashNagar", "Begudistanceset", "MathuraNagar", "Yusufguda", "Jubliehills", "JH-checkpost", "Peddamagudi", "Madhapur", "Dugamcheruvu", "Hitechcity", "raidurg"];
+
     distances = new Map();
     code=new Map();
     let q = 0;
@@ -169,7 +193,7 @@ function main(s,d) {
     const dst = code.get(sdst);
 
     const route = dijkstra(src,distances);
-
+    Totaldis=distances.get(dst);
     console.log(route);
     console.log(`** Shortest Distance from ${ssrc} to ${sdst} is ${distances.get(dst)} units **`);
     const st = [];
@@ -192,6 +216,119 @@ function main(s,d) {
 
 
 function show() {
+    station_info = [
+    "LBnagar: A major terminal station in the southern part of Hyderabad, serving as a hub for commuters. It connects the city's residential areas with commercial hubs, providing easy access to schools, colleges, and hospitals in the vicinity. The station features a spacious concourse, multiple entry/exit points, and well-designed platforms to ensure smooth passenger flow during peak hours. LBnagar station is equipped with modern amenities like escalators, elevators, and air-conditioned waiting areas, making it a comfortable and accessible transit point for all. The station's strategic location and efficient connectivity have significantly reduced travel time and traffic congestion in the area, contributing to the overall development of the surrounding neighborhoods.",
+    
+    "Victoria_memorial: A key station located near the iconic Victoria Memorial, providing access to nearby attractions like the Birla Planetarium, Salar Jung Museum, and Chowmahalla Palace. The station's design incorporates elements of Hyderabad's rich cultural heritage, with intricate architectural details and artwork showcasing the city's history. Victoria Memorial station serves as a gateway for tourists and locals alike, connecting them to the city's most popular landmarks and museums. The station's proximity to the Hussain Sagar lake and the lush Necklace Road makes it an ideal starting point for exploring Hyderabad's scenic beauty. With its efficient connectivity and well-maintained facilities, Victoria Memorial station has become an integral part of the city's public transportation system.",
+    
+    "chaitanyapuri: This station serves the Chaitanyapuri area, known for its residential neighborhoods, educational institutions, and commercial centers. It connects the area's residents to the city's major employment hubs, making it easier for them to commute to work. Chaitanyapuri station features a modern design with ample space for passenger circulation, ensuring a comfortable and efficient travel experience. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new residential complexes, shopping malls, and entertainment centers. Chaitanyapuri station has become a vital part of the community, providing a reliable and convenient mode of transportation for residents and visitors alike.",
+    
+    "Dilshukhnagar: A busy station that connects various residential and commercial areas in the vicinity. It serves as a major transit point for commuters traveling between the city's eastern and central regions. Dilshukhnagar station is known for its high passenger traffic, especially during peak hours. The station features multiple entry/exit points, escalators, and elevators to ensure smooth passenger flow. The station's design incorporates energy-efficient measures, such as natural ventilation and LED lighting, making it environmentally friendly. Dilshukhnagar station has also become a hub for local businesses, with several shops and eateries located within the station premises. The station's efficient connectivity has led to the development of nearby areas, with the construction of new residential complexes and commercial centers.",
+    
+    "moosrambagh: Located near Moosrambagh, this station is important for local commuters. It serves the area's residential neighborhoods, schools, and hospitals, providing easy access to the city's major employment hubs. Moosrambagh station features a compact design with a single concourse and two platforms, ensuring efficient passenger flow. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new residential complexes and commercial centers. Moosrambagh station has become a vital part of the community, providing a reliable and convenient mode of transportation for residents and visitors alike.",
+    
+    "NewMarket: A station serving the New Market area, popular for shopping and local businesses. It connects the area's commercial centers with the city's residential neighborhoods, making it easier for shoppers and business owners to commute. NewMarket station features a modern design with ample space for passenger circulation, ensuring a comfortable and efficient travel experience. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new shopping malls and entertainment centers. NewMarket station has become a popular destination for both locals and tourists, offering a convenient and reliable mode of transportation for those looking to explore the city's vibrant shopping scene.",
+    
+    "malakpet: This station is situated near Malakpet, known for its vibrant market scene. It serves as a hub for local businesses, connecting them with the city's residential areas and employment centers. Malakpet station features a compact design with a single concourse and two platforms, ensuring efficient passenger flow. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new commercial centers and residential complexes. Malakpet station has become an important part of the local economy, providing a reliable and convenient mode of transportation for business owners, employees, and customers alike.",
+    
+    "MGbusstation: Close to the MG Bus Station, providing easy transfers between bus and metro services. This station serves as a major transit hub, connecting commuters from various parts of the city. MGbusstation features a spacious design with multiple entry/exit points, ensuring smooth passenger flow during peak hours. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's proximity to the MG Bus Station allows for seamless transfers between different modes of public transportation, reducing travel time and improving connectivity. MGbusstation has become an essential part of the city's transportation network, providing a convenient and efficient way for commuters to navigate Hyderabad.",
+    
+    "Osmania_medical: A station that serves the Osmania Medical College and surrounding healthcare facilities. It connects the area's medical professionals, students, and patients with the city's residential neighborhoods and employment centers. Osmania Medical station features a modern design with ample space for passenger circulation, ensuring a comfortable and efficient travel experience. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new healthcare facilities and residential complexes. Osmania Medical station has become an important part of the city's healthcare infrastructure, providing a reliable and convenient mode of transportation for those seeking medical services.",
+    
+    "Gandhibhavan: Located near Gandhi Bhavan, a cultural and historical landmark in Hyderabad. This station serves as a gateway to the city's heritage sites, connecting visitors and locals alike. Gandhibhavan station features a design that pays homage to Hyderabad's architectural legacy, with intricate details and artwork showcasing the city's rich cultural heritage. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's proximity to Gandhi Bhavan and other nearby attractions has led to the development of new tourist facilities, such as hotels and restaurants. Gandhibhavan station has become an important part of Hyderabad's tourism industry, providing a convenient and efficient way for visitors to explore the city's cultural landmarks.",
+    
+    "Nadistancesally: A station that serves the nearby residential areas and local businesses. It connects the area's residents with the city's major employment hubs, making it easier for them to commute to work. Nadistancesally station features a compact design with a single concourse and two platforms, ensuring efficient passenger flow. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new residential complexes and commercial centers. Nadistancesally station has become a vital part of the community, providing a reliable and convenient mode of transportation for residents and local businesses.",
+    
+    "Assembly: Located near the Legislative Assembly, this station is significant for government employees and visitors. It serves as a hub for those working in or visiting government offices, connecting them with the city's residential areas and other employment centers. Assembly station features a modern design with ample space for passenger circulation, ensuring a comfortable and efficient travel experience. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's proximity to the Legislative Assembly and other government offices has led to the development of nearby areas, with the construction of new office complexes and residential neighborhoods. Assembly station has become an important part of the city's administrative infrastructure, providing a reliable and convenient mode of transportation for those working in or visiting government institutions.",
+    
+    "Lakdikapool: A key station in the Lakdikapool area, known for its connectivity and commercial activities. It serves as a hub for local businesses, connecting them with the city's residential areas and employment centers. Lakdikapool station features a spacious design with multiple entry/exit points, ensuring smooth passenger flow during peak hours. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new commercial centers and residential complexes. Lakdikapool station has become an important part of the local economy, providing a reliable and convenient mode of transportation for business owners, employees, and customers alike.",
+    
+    "Khairtabad: This station serves the Khairtabad area, a bustling commercial hub. It connects the area's businesses with the city's residential neighborhoods and other employment centers. Khairtabad station features a modern design with ample space for passenger circulation, ensuring a comfortable and efficient travel experience. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new office complexes, shopping malls, and entertainment centers. Khairtabad station has become an important part of the city's commercial infrastructure, providing a reliable and convenient mode of transportation for those working in or visiting the area's businesses.",
+    
+    "Irrummanzil: A station that provides access to the Irrummanzil area, known for its residential neighborhoods. It serves the area's residents, connecting them with the city's employment hubs and commercial centers. Irrummanzil station features a compact design with a single concourse and two platforms, ensuring efficient passenger flow. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new residential complexes and amenities. Irrummanzil station has become a vital part of the community, providing a reliable and convenient mode of transportation for residents and visitors alike.",
+    
+    "Panjagutta: A major commercial center, this station is frequented by shoppers and office-goers. It serves as a hub for local businesses, connecting them with the city's residential areas and other employment centers. Panjagutta station features a spacious design with multiple entry/exit points, ensuring smooth passenger flow during peak hours. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new shopping malls, office complexes, and entertainment centers. Panjagutta station has become an important part of the city's commercial infrastructure, providing a reliable and convenient mode of transportation for those working in or visiting the area's businesses and shopping destinations.",
+    
+    "Ameerpet: A busy interchange station connecting different metro lines and popular for its educational institutions. It serves as a major transit hub, connecting commuters from various parts of the city. Ameerpet station features a spacious design with multiple entry/exit points, ensuring smooth passenger flow during peak hours. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's proximity to several educational institutions, such as the University of Hyderabad and the Indian School of Business, has made it a popular destination for students and faculty. Ameerpet station has become an essential part of the city's transportation network, providing a convenient and efficient way for commuters to navigate Hyderabad and access its educational resources.",
+    
+    "SRnagar: Located in the SR Nagar area, known for its residential and commercial establishments. It serves the area's residents and local businesses, connecting them with the city's major employment hubs. SRnagar station features a compact design with a single concourse and two platforms, ensuring efficient passenger flow. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new residential complexes, shopping malls, and entertainment centers. SRnagar station has become a vital part of the community, providing a reliable and convenient mode of transportation for residents and local businesses.",
+    
+    "ESIhospital: This station is situated near the ESI Hospital, catering to patients and visitors. It serves as a gateway to the hospital, connecting it with the city's residential areas and other healthcare facilities. ESIhospital station features a modern design with ample space for passenger circulation, ensuring a comfortable and efficient travel experience. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's proximity to the ESI Hospital and other nearby healthcare facilities has led to the development of new medical centers and residential complexes. ESIhospital station has become an important part of the city's healthcare infrastructure, providing a reliable and convenient mode of transportation for those seeking medical services.",
+    
+    "Erragadda: A station that serves the Erragadda area, known for its residential neighborhoods. It connects the area's residents with the city's employment hubs and commercial centers. Erragadda station features a compact design with a single concourse and two platforms, ensuring efficient passenger flow. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new residential complexes and amenities. Erragadda station has become a vital part of the community, providing a reliable and convenient mode of transportation for residents and visitors alike.",
+    
+    "Bharatnagar: This station is located in the Bharatnagar area, providing access to local amenities. It serves the area's residents, connecting them with the city's employment hubs and commercial centers. Bharatnagar station features a compact design with a single concourse and two platforms, ensuring efficient passenger flow. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new residential complexes and amenities. Bharatnagar station has become a vital part of the community, providing a reliable and convenient mode of transportation for residents and visitors alike.",
+    
+    "Moosapet: A key station in the Moosapet area, known for its connectivity to nearby regions. It serves as a hub for commuters traveling between the city's eastern and western regions. Moosapet station features a spacious design with multiple entry/exit points, ensuring smooth passenger flow during peak hours. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new residential complexes, shopping malls, and entertainment centers. Moosapet station has become an important part of the city's transportation network, providing a convenient and efficient way for commuters to navigate Hyderabad.",
+    
+    "DR_BRambedkar: Named after Dr. B.R. Ambedkar, this station serves the surrounding community. It connects the area's residents with the city's employment hubs and commercial centers. DR_BRambedkar station features a modern design with ample space for passenger circulation, ensuring a comfortable and efficient travel experience. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new residential complexes, educational institutions, and healthcare facilities. DR_BRambedkar station has become a vital part of the community, providing a reliable and convenient mode of transportation for residents and visitors alike.",
+    
+    "Kukatpally: A major commercial hub, this station is frequented by shoppers and commuters alike. It serves as a hub for local businesses, connecting them with the city's residential areas and other employment centers. Kukatpally station features a spacious design with multiple entry/exit points, ensuring smooth passenger flow during peak hours. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. The station's strategic location has also led to the development of nearby areas, with the construction of new shopping malls, office complexes, and entertainment centers. Kukatpally station has become an important part of the city's commercial infrastructure, providing a reliable and convenient mode of transportation for those working in or visiting the area's businesses and shopping destinations.",
+
+    "KPHBcolony: This station serves the KPHB Colony area, known for its residential complexes and proximity to IT hubs. It connects commuters to major employment centers in the city. The station features modern facilities, including escalators and elevators, ensuring accessibility for all passengers. KPHBcolony is strategically located to facilitate easy access to nearby shopping centers and educational institutions, making it a vital transit point for local residents and visitors alike.",
+
+    "JNTUcollege: Serving the Jawaharlal Nehru Technological University, this station is crucial for students and faculty. It connects the university to the rest of the city, making commuting easier for thousands. The station is equipped with essential amenities, including waiting areas and ticket counters. Its proximity to educational institutions has led to increased foot traffic, contributing to the area's vibrancy. JNTUcollege station plays a significant role in facilitating access to higher education.",
+
+    "Miyapur: As a terminal station, Miyapur connects the northern suburbs to the city center. It serves as a major hub for commuters traveling to various parts of Hyderabad. The station is designed for high passenger capacity, featuring multiple entry and exit points, escalators, and elevators. Its strategic location near residential areas and commercial centers makes it a vital transit point. Miyapur station enhances connectivity and reduces travel time for daily commuters.",
+
+    "Sultanbazar: This station is located near the historic Sultan Bazaar, a bustling market area. It connects shoppers and visitors to the vibrant local culture and commerce. Sultanbazar station features modern amenities, including spacious platforms and accessibility options. The station's design reflects the area's heritage, attracting tourists and locals alike. Its proximity to various shops and eateries makes it an essential stop for those looking to experience the local market scene.",
+
+    "Narayanguda: A key station serving the Narayanguda area, it connects residential neighborhoods with commercial hubs. The station is designed to handle high passenger traffic, especially during peak hours. Narayanguda features modern facilities, including escalators and well-lit platforms, ensuring safety and accessibility. Its strategic location facilitates easy access to nearby shopping centers and educational institutions, making it an important transit point for local residents and commuters.",
+
+    "Chikkadpali: This station serves the Chikkadpally area, known for its vibrant community and local businesses. It connects residents with the city's major employment hubs, enhancing accessibility. Chikkadpali station features modern amenities, including elevators and spacious waiting areas. Its location promotes local commerce, attracting shoppers and visitors. The station plays a vital role in the community, providing a reliable transportation option for residents and contributing to the area's economic growth.",
+
+    "RTCxroads: Located at a major junction, RTCxroads serves as a crucial interchange for various transport modes. It connects metro services with bus routes, facilitating seamless transfers for commuters. The station is equipped with modern facilities, including ticket counters and waiting areas. RTCxroads enhances connectivity within the city, making it easier for passengers to navigate. Its strategic location supports local businesses and contributes to the area's economic activity.",
+
+    "Musheerabad: This station serves the Musheerabad area, known for its residential neighborhoods and local markets. It connects commuters with the city's major employment centers, making travel more convenient. Musheerabad station features modern design elements, including spacious platforms and accessibility features. Its proximity to local shops and eateries makes it a popular stop for residents and visitors. The station plays a significant role in enhancing local connectivity and supporting the community.",
+
+    "Gandhihospital: Located near Gandhi Hospital, this station is vital for patients and healthcare professionals. It connects the hospital with the city's residential areas, facilitating easy access to medical services. Gandhihospital station features modern amenities, ensuring comfort and accessibility for all passengers. Its strategic location supports the local healthcare infrastructure, making it an essential transit point for those seeking medical care in the area.",
+
+    "Secbadwest: This station serves the western part of Secunderabad, connecting residential neighborhoods with commercial hubs. Secbadwest features modern facilities, including escalators and spacious waiting areas, ensuring a comfortable travel experience. The station's strategic location enhances connectivity within the city, making it easier for commuters to access nearby shopping centers and employment opportunities. Secbadwest station plays a significant role in supporting local businesses and facilitating daily commutes.",
+
+    "Paradeground: Located near the Parade Ground, this station is significant for events and gatherings. It connects visitors with various cultural and recreational activities in the area. Paradeground station features modern design and amenities, ensuring accessibility for all passengers. Its proximity to parks and event venues makes it a popular stop for locals and tourists alike. The station enhances connectivity and promotes community engagement through its strategic location.",
+
+    "Nagole: A terminal station on the Blue Line, Nagole connects the eastern suburbs with the city center. It serves as a major hub for commuters traveling to various parts of Hyderabad. Nagole station features modern facilities, including spacious platforms and accessibility options. Its strategic location near residential areas and commercial centers makes it an essential transit point. Nagole enhances connectivity and reduces travel time for daily commuters, contributing to the city's overall transportation network.",
+
+    "Uppal: This station serves the Uppal area, known for its residential neighborhoods and local businesses. It connects commuters with the city's major employment hubs, enhancing accessibility. Uppal station features modern design elements, including elevators and spacious waiting areas. Its location promotes local commerce, attracting shoppers and visitors. The station plays a vital role in the community, providing a reliable transportation option for residents and contributing to the area's economic growth.",
+
+    "stadium: Located near the local stadium, this station is frequented during events and matches. It connects sports enthusiasts with various recreational activities in the area. Stadium station features modern amenities, ensuring comfort and accessibility for all passengers. Its strategic location supports local sports events and community engagement, making it an essential transit point for those attending games and activities. The station enhances connectivity and promotes local culture.",
+
+    "NGRI: This station serves the National Geophysical Research Institute, catering to researchers and students. It connects the institute with the city's residential areas and other educational institutions. NGRI station features modern design and amenities, ensuring accessibility for all passengers. Its strategic location supports the local research community, making it an essential transit point for those involved in scientific studies and education. The station enhances connectivity and promotes academic collaboration.",
+
+    "Habsiguda: Located in the Habsiguda area, this station is known for its educational institutions and residential neighborhoods. It connects commuters with the city's major employment hubs, enhancing accessibility. Habsiguda station features modern design elements, including elevators and spacious waiting areas. Its location promotes local commerce, attracting shoppers and visitors. The station plays a vital role in the community, providing a reliable transportation option for residents and contributing to the area's economic growth.",
+
+    "Tarnaka: This station serves the Tarnaka area, known for its residential neighborhoods and local businesses. It connects commuters with the city's major employment hubs, enhancing accessibility. Tarnaka station features modern design elements, including spacious platforms and accessibility features. Its proximity to local shops and eateries makes it a popular stop for residents and visitors. The station plays a significant role in enhancing local connectivity and supporting the community.",
+
+    "Mettuguda: Located in the Mettuguda area, this station connects residential neighborhoods with commercial hubs. It serves as a vital transit point for commuters traveling to various parts of Hyderabad. Mettuguda station features modern amenities, including escalators and well-lit platforms, ensuring safety and accessibility. Its strategic location facilitates easy access to nearby shopping centers and educational institutions, making it an important stop for local residents and visitors.",
+
+    "Secbadeast: This station serves the eastern part of Secunderabad, connecting residential neighborhoods with commercial hubs. Secbadeast features modern facilities, including escalators and spacious waiting areas, ensuring a comfortable travel experience. The station's strategic location enhances connectivity within the city, making it easier for commuters to access nearby shopping centers and employment opportunities. Secbadeast station plays a significant role in supporting local businesses and facilitating daily commutes.",
+
+    "Paradise: A popular station located near the famous Paradise restaurant, known for its biryani. It connects food enthusiasts and visitors with the vibrant local dining scene. Paradise station features modern amenities, ensuring comfort and accessibility for all passengers. Its strategic location supports local commerce and tourism, making it an essential transit point for those exploring the culinary delights of Hyderabad. The station enhances connectivity and promotes the city's rich food culture.",
+
+    "Rasoolpura: This station serves the Rasoolpura area, known for its residential neighborhoods and local businesses. It connects commuters with the city's major employment hubs, enhancing accessibility. Rasoolpura station features modern design elements, including spacious platforms and accessibility features. Its proximity to local shops and eateries makes it a popular stop for residents and visitors. The station plays a significant role in enhancing local connectivity and supporting the community.",
+
+    "PrakashNagar: Located in the Prakash Nagar area, this station provides access to local amenities. It serves the area's residents, connecting them with the city's employment hubs and commercial centers. PrakashNagar station features a compact design with a single concourse and two platforms, ensuring efficient passenger flow. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. Its strategic location has led to the development of nearby areas, enhancing local connectivity.",
+
+    "Begudistanceset: This station serves the Begumpet area, known for its vibrant local culture and businesses. It connects residents with the city's major employment hubs, enhancing accessibility. Begudistanceset station features modern design elements, ensuring a comfortable travel experience. Its strategic location promotes local commerce, attracting shoppers and visitors. The station plays a vital role in the community, providing a reliable transportation option for residents and contributing to the area's economic growth.",
+
+    "MathuraNagar: Located in the Mathura Nagar area, this station connects residential neighborhoods with commercial hubs. It serves as a vital transit point for commuters traveling to various parts of Hyderabad. MathuraNagar station features modern amenities, including escalators and well-lit platforms, ensuring safety and accessibility. Its strategic location facilitates easy access to nearby shopping centers and educational institutions, making it an important stop for local residents and visitors.",
+
+    "Yusufguda: This station serves the Yusufguda area, known for its residential neighborhoods and local businesses. It connects commuters with the city's major employment hubs, enhancing accessibility. Yusufguda station features modern design elements, including spacious platforms and accessibility features. Its proximity to local shops and eateries makes it a popular stop for residents and visitors. The station plays a significant role in enhancing local connectivity and supporting the community.",
+
+    "Jubliehills: This station serves the upscale Jubilee Hills area, known for its affluent neighborhoods and commercial establishments. It connects residents with the city's major employment hubs, enhancing accessibility. Jubliehills station features modern amenities, ensuring comfort and accessibility for all passengers. Its strategic location promotes local commerce, attracting shoppers and visitors. The station plays a vital role in the community, providing a reliable transportation option for residents and contributing to the area's economic growth.",
+
+    "JH-checkpost: Located near the check post, this station is significant for local commuters. It connects various neighborhoods, facilitating easy access to nearby commercial areas. JH-checkpost station features modern design elements, ensuring a comfortable travel experience. Its strategic location supports local businesses and enhances connectivity within the city. The station plays a vital role in facilitating daily commutes and promoting local commerce, making it an essential transit point for residents.",
+
+    "Peddamagudi: A station serving the Peddamagudi area, known for its residential neighborhoods and local businesses. It connects commuters with the city's major employment hubs, enhancing accessibility. Peddamagudi station features modern design elements, including spacious platforms and accessibility features. Its proximity to local shops and eateries makes it a popular stop for residents and visitors. The station plays a significant role in enhancing local connectivity and supporting the community.",
+
+    "Madhapur: A major commercial hub, this station is frequented by professionals and shoppers. It connects the area's businesses with the city's residential neighborhoods and other employment centers. Madhapur station features a spacious design with multiple entry/exit points, ensuring smooth passenger flow during peak hours. The station is equipped with escalators, elevators, and well-lit platforms, making it accessible for all. Its strategic location has led to the development of nearby areas, enhancing local commerce.",
+
+    "Dugamcheruvu: This station serves the Dugamcheruvu area, providing access to local amenities and residential neighborhoods. It connects commuters with the city's major employment hubs, enhancing accessibility. Dugamcheruvu station features modern design elements, including spacious platforms and accessibility features. Its strategic location promotes local commerce, attracting shoppers and visitors. The station plays a vital role in the community, providing a reliable transportation option for residents and contributing to the area's economic growth.",
+
+    "Hitechcity: A key station in the Hitech City area, known for its IT parks and businesses. It serves as a major hub for professionals working in the technology sector, connecting them with the city's residential neighborhoods. Hitechcity station features modern amenities, ensuring comfort and accessibility for all passengers. Its strategic location supports local commerce and enhances connectivity, making it an essential transit point for those commuting to work in the tech industry.",
+
+    "raidurg: This terminal station serves as a key point for commuters traveling from the outer regions. It connects the Hitech City area with the rest of the city, facilitating easy access to major employment hubs. Raidurg station features modern design and amenities, ensuring accessibility for all passengers. Its strategic location supports local businesses and enhances connectivity within the city, making it an essential transit point for daily commuters and visitors."
+]
     
     const inputs = document.getElementById("form").elements;
     const s =document.querySelector("#Source").value
@@ -200,17 +337,51 @@ function show() {
     let path = main(s, d);
 
     let ele = document.getElementById("paths");
+    let dist=document.getElementById("dist")
+
     if(path.length==0){
         ele.innerHTML = "No Path Obtained"; // Clear previous paths
 
     }
     while (path.length > 0) {
-        const station = document.createElement("div");
-        const stationName = document.createTextNode(`${path.pop()}`);
-        station.appendChild(stationName);
-        ele.appendChild(station);
+        const flipCard = document.createElement('div');
+        flipCard.className = 'flip-card';
+
+        const flipCardInner = document.createElement('div');
+        flipCardInner.className = 'flip-card-inner';
+
+        const flipCardFront = document.createElement('div');
+        flipCardFront.className = 'flip-card-front';
+
+        const flipCardBack = document.createElement('div');
+        flipCardBack.className = 'flip-card-back';
+
+        const station = document.createElement("p");
+        station.className = 'title';
+        let x=path.pop();
+        station.textContent = `${x}`;
+        flipCardFront.appendChild(station);
+        const index=stations.indexOf(x)
+        const backTitle = document.createElement('p');
+        backTitle.className = 'title';
+        backTitle.textContent = `${station_info[index]}`;
+        flipCardBack.appendChild(backTitle);
+        
+        flipCardInner.appendChild(flipCardFront);
+        flipCardInner.appendChild(flipCardBack);
+        flipCard.appendChild(flipCardInner);
+
+        
+        
+        ele.appendChild(flipCard);
     }
+
+    const dele=document.createElement("div")
+    const dname=document.createTextNode(`Shortest Distance from ${s} to ${d} is ${Totaldis}`)
+    dele.append(dname)
+    dist.append(dele)
 }
 
 
 </script>
+
